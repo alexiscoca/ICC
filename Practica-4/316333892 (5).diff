@@ -1,0 +1,486 @@
+diff --git a/src/mx/unam/ciencias/icc/Estudiante.java b/src/mx/unam/ciencias/icc/Estudiante.java
+index d7d93d9..1705c12 100644
+--- a/src/mx/unam/ciencias/icc/Estudiante.java
++++ b/src/mx/unam/ciencias/icc/Estudiante.java
+@@ -26,6 +26,10 @@ public class Estudiante {
+                       int    cuenta,
+                       double promedio,
+                       int    edad) {
++	this.nombre   = nombre;
++	this.cuenta   = cuenta;
++	this.promedio = promedio;
++	this.edad     = edad;
+         // Aquí va su código.
+     }
+ 
+@@ -34,6 +38,7 @@ public class Estudiante {
+      * @return el nombre del estudiante.
+      */
+     public String getNombre() {
++	return nombre;
+         // Aquí va su código.
+     }
+ 
+@@ -42,6 +47,7 @@ public class Estudiante {
+      * @param nombre el nuevo nombre del estudiante.
+      */
+     public void setNombre(String nombre) {
++	this.nombre = nombre;
+         // Aquí va su código.
+     }
+ 
+@@ -50,6 +56,7 @@ public class Estudiante {
+      * @return el número de cuenta del estudiante.
+      */
+     public int getCuenta() {
++	return cuenta;
+         // Aquí va su código.
+     }
+ 
+@@ -58,6 +65,7 @@ public class Estudiante {
+      * @param cuenta el nuevo número de cuenta del estudiante.
+      */
+     public void setCuenta(int cuenta) {
++	this.cuenta = cuenta;
+         // Aquí va su código.
+     }
+ 
+@@ -66,6 +74,7 @@ public class Estudiante {
+      * @return el promedio del estudiante.
+      */
+     public double getPromedio() {
++	return promedio;
+         // Aquí va su código.
+     }
+ 
+@@ -74,6 +83,7 @@ public class Estudiante {
+      * @param promedio el nuevo promedio del estudiante.
+      */
+     public void setPromedio(double promedio) {
++	this.promedio = promedio;
+         // Aquí va su código.
+     }
+ 
+@@ -82,6 +92,7 @@ public class Estudiante {
+      * @return la edad del estudiante.
+      */
+     public int getEdad() {
++	return edad;
+         // Aquí va su código.
+     }
+ 
+@@ -90,6 +101,7 @@ public class Estudiante {
+      * @param edad la nueva edad del estudiante.
+      */
+     public void setEdad(int edad) {
++	this.edad = edad;
+         // Aquí va su código.
+     }
+ 
+@@ -98,6 +110,12 @@ public class Estudiante {
+      * @return una representación en cadena del estudiante.
+      */
+     public String toString() {
++	   String cadena = String.format("Nombre   :%s\n" +
++			   "Cuenta   :%09d\n" +
++			   "Promedio :%2.2f\n" +
++			   "Edad     :%d",
++			   nombre,cuenta,promedio,edad);
++	   return cadena;
+         // Aquí va su código.
+     }
+ 
+@@ -113,6 +131,17 @@ public class Estudiante {
+         if (!(objeto instanceof Estudiante))
+             return false;
+         Estudiante estudiante = (Estudiante)objeto;
++	if (estudiante == null) {
++	    return false;}
++	if (!this.nombre.equals(estudiante.nombre)) {
++	    return false;}
++	if (this.cuenta != estudiante.cuenta) {
++	    return false;}
++	if (this.promedio != estudiante.promedio) {
++	    return false;}
++	if (this.edad != estudiante.edad) {
++	    return false;}
++	return true;
+         // Aquí va su código.
+     }
+ }
+diff --git a/src/mx/unam/ciencias/icc/Lista.java b/src/mx/unam/ciencias/icc/Lista.java
+index b15dd42..bc7c40b 100644
+--- a/src/mx/unam/ciencias/icc/Lista.java
++++ b/src/mx/unam/ciencias/icc/Lista.java
+@@ -26,6 +26,7 @@ public class Lista {
+ 
+         /* Construye un nodo con un elemento. */
+         private Nodo(Object elemento) {
++	    this.elemento = elemento;
+             // Aquí va su código.
+         }
+ 
+@@ -34,6 +35,7 @@ public class Lista {
+          * @return el nodo anterior del nodo.
+          */
+         public Nodo getAnterior() {
++	    return anterior;
+             // Aquí va su código.
+         }
+ 
+@@ -42,6 +44,7 @@ public class Lista {
+          * @return el nodo siguiente del nodo.
+          */
+         public Nodo getSiguiente() {
++	    return siguiente;
+             // Aquí va su código.
+         }
+ 
+@@ -50,9 +53,10 @@ public class Lista {
+          * @return el elemento del nodo.
+          */
+         public Object get() {
++	    return elemento;
++	}
+             // Aquí va su código.
+-        }
+-    }
++	}
+ 
+     /* Primer elemento de la lista. */
+     private Nodo cabeza;
+@@ -60,12 +64,29 @@ public class Lista {
+     private Nodo rabo;
+     /* Número de elementos en la lista. */
+     private int longitud;
++    /* Método auxiliar para eliminar un nodo.*/
++    private Nodo buscaNodo(Object elemento) {
++	Nodo n = cabeza;
++	while (n != null){
++	    if (n.elemento.equals(elemento))
++		return n;
++	    n = n.siguiente;
++	}
++	return null;
++    }
+ 
+     /**
+      * Regresa la longitud de la lista.
+      * @return la longitud de la lista, el número de elementos que contiene.
+      */
+     public int getLongitud() {
++	int r = 0;
++	Nodo n = cabeza;
++	while (n != null) {
++	    r++;
++	    n = n.siguiente;
++	}
++	return r;
+         // Aquí va su código.
+     }
+ 
+@@ -75,6 +96,9 @@ public class Lista {
+      *         otro caso.
+      */
+     public boolean esVacia() {
++	if (longitud == 0)
++	    return true;
++	return false;
+         // Aquí va su código.
+     }
+ 
+@@ -85,6 +109,17 @@ public class Lista {
+      *                 si es distinto de <code>null</code>.
+      */
+     public void agregaFinal(Object elemento) {
++	if (elemento == null)
++	    return;
++	Nodo n = new Nodo (elemento);
++	longitud++;
++	if (rabo == null) {
++	    cabeza = rabo = n;
++	} else {
++	    rabo.siguiente = n;
++	    n.anterior     = rabo;
++	    rabo           = n;
++	}
+         // Aquí va su código.
+     }
+ 
+@@ -95,6 +130,17 @@ public class Lista {
+      *                 si es distinto de <code>null</code>.
+      */
+     public void agregaInicio(Object elemento) {
++	if (elemento == null)
++	    return;
++	Nodo n = new Nodo (elemento);
++	longitud++;
++	if (cabeza == null) {
++	    cabeza = rabo = n;
++	} else {
++	    cabeza.anterior = n;
++	    n.siguiente     = cabeza;
++	    cabeza          = n;
++	}
+         // Aquí va su código.
+     }
+ 
+@@ -113,6 +159,24 @@ public class Lista {
+      *                 si es distinto de <code>null</code>.
+      */
+     public void inserta(int i, Object elemento) {
++	Nodo n1 = cabeza;
++	Nodo n = new Nodo(elemento);
++	if (n.elemento == null)
++	    return;
++	if (esVacia() == true || i <= 0)
++	    agregaInicio(n.elemento);
++	else if (i >= longitud)
++	    agregaFinal(n.elemento);
++	else {
++	    for (int c =0; c < i; c++)
++		n1 =n1.siguiente;
++	    Nodo anterior = n1.anterior;
++	    n1.anterior   = n;
++	    n.siguiente   = n1;
++	    n.anterior    = anterior;
++	    anterior.siguiente = n;
++	    longitud++;
++	}
+         // Aquí va su código.
+     }
+ 
+@@ -122,6 +186,18 @@ public class Lista {
+      * @param elemento el elemento a eliminar.
+      */
+     public void elimina(Object elemento) {
++	Nodo d = buscaNodo(elemento);
++	if (d == null)
++	    return;
++	else if (d.elemento.equals(cabeza.elemento))
++	    eliminaPrimero();
++	else if (d.elemento.equals(rabo.elemento))
++	    eliminaUltimo();
++	else {
++	    d.anterior.siguiente = d.siguiente;
++	    d.siguiente.anterior = d.anterior;
++	    longitud--;
++	}
+         // Aquí va su código.
+     }
+ 
+@@ -131,6 +207,20 @@ public class Lista {
+      *         <code>null</code> si la lista es vacía.
+      */
+     public Object eliminaPrimero() {
++	if (esVacia())
++	    return null;
++	if (longitud == 1) {
++	    Object r = cabeza.elemento;
++	    cabeza = rabo = null;
++	    longitud--;
++	    return r;
++	} else {
++	    Object r = cabeza.elemento;
++	    cabeza = cabeza.siguiente;
++	    cabeza.anterior = null;
++	    longitud--;
++	    return r;
++	}
+         // Aquí va su código.
+     }
+ 
+@@ -140,6 +230,20 @@ public class Lista {
+      *         <code>null</code> si la lista es vacía.
+      */
+     public Object eliminaUltimo() {
++	if (esVacia())
++	    return null;
++	if (longitud == 1) {
++	    Object r = rabo.elemento;
++	    cabeza = rabo = null;
++	    longitud--;
++	    return r;
++	} else {
++	    Object r = rabo.elemento;
++	    rabo = rabo.anterior;
++	    rabo.siguiente = null;
++	    longitud--;
++	    return r;
++	}
+         // Aquí va su código.
+     }
+ 
+@@ -150,6 +254,13 @@ public class Lista {
+      *         <tt>false</tt> en otro caso.
+      */
+     public boolean contiene(Object elemento) {
++	Nodo n = cabeza;
++	while (n != null) {
++	    if (n.elemento.equals(elemento))
++		return true;
++	    n = n.siguiente;
++	}
++	return false;
+         // Aquí va su código.
+     }
+ 
+@@ -158,6 +269,13 @@ public class Lista {
+      * @return una nueva lista que es la reversa la que manda llamar el método.
+      */
+     public Lista reversa() {
++	Lista r = new Lista();
++	Nodo n = cabeza;
++	while (n != null) {
++	    r.agregaInicio (n.elemento);
++	    n = n.siguiente;
++	}
++	return r;
+         // Aquí va su código.
+     }
+ 
+@@ -167,6 +285,13 @@ public class Lista {
+      * @return una copiad de la lista.
+      */
+     public Lista copia() {
++	Lista r = new Lista();
++	Nodo n = cabeza;
++	while (n !=null) {
++	    r.agregaFinal (n.elemento);
++	    n = n.siguiente;
++	}
++	return r;
+         // Aquí va su código.
+     }
+ 
+@@ -174,6 +299,11 @@ public class Lista {
+      * Limpia la lista de elementos, dejándola vacía.
+      */
+     public void limpia() {
++	if (!esVacia()) {
++	    cabeza = rabo = null;
++	    longitud = 0;
++	}
++	return;
+         // Aquí va su código.
+     }
+ 
+@@ -183,6 +313,9 @@ public class Lista {
+      *         es vacía.
+      */
+     public Object getPrimero() {
++	if (cabeza == null)
++	    return null;
++	return cabeza.elemento;
+         // Aquí va su código.
+     }
+ 
+@@ -192,6 +325,9 @@ public class Lista {
+      *         es vacía.
+      */
+     public Object getUltimo() {
++	if (rabo == null)
++	    return null;
++	return rabo.elemento;
+         // Aquí va su código.
+     }
+ 
+@@ -203,6 +339,13 @@ public class Lista {
+      *         elementos en la lista.
+      */
+     public Object get(int i) {
++	if (i < 0 || i >= longitud)
++	    return null;
++	Nodo n = cabeza;
++	while (i--> 0) {
++	    n = n.siguiente;
++	}
++	return n.elemento;
+         // Aquí va su código.
+     }
+ 
+@@ -213,6 +356,15 @@ public class Lista {
+      *         no está contenido en la lista.
+      */
+     public int indiceDe(Object elemento) {
++	int r = 0;
++	Nodo n = cabeza;
++	while (n != null) {
++	    if (n.elemento.equals(elemento))
++		return r;
++	    n = n.siguiente;
++	    r++;
++	}
++	return -1;
+         // Aquí va su código.
+     }
+ 
+@@ -221,6 +373,15 @@ public class Lista {
+      * @return una representación en cadena de la lista.
+      */
+     @Override public String toString() {
++	if (cabeza == null)
++	    return "[]";
++	String r = "[" + cabeza.elemento.toString();
++	Nodo n = cabeza.siguiente;
++	while (n != null) {
++	    r += "," + n.elemento.toString();
++	    n = n.siguiente;
++	}
++	return r + "]";
+         // Aquí va su código.
+     }
+ 
+@@ -234,6 +395,19 @@ public class Lista {
+         if (!(objeto instanceof Lista))
+             return false;
+         Lista lista = (Lista)objeto;
++	if (lista == null || longitud != lista.longitud)
++	    return false;
++	Nodo n1 = cabeza;
++	Nodo n2 = lista.cabeza;
++	while (n1 != null) {
++	    if (n1.elemento.equals(n2.elemento)) {
++		n1 = n1.siguiente;
++		n2 = n2.siguiente;
++	    } else {
++		return false;
++	    }
++	}
++	return true;
+         // Aquí va su código.
+     }
+ 
+@@ -242,6 +416,9 @@ public class Lista {
+      * @return el nodo cabeza de la lista.
+      */
+     public Nodo getCabeza() {
++	if (cabeza == null)
++	    return null;
++	return cabeza;
+         // Aquí va su código.
+     }
+ 
+@@ -250,6 +427,9 @@ public class Lista {
+      * @return el nodo rabo de la lista.
+      */
+     public Nodo getRabo() {
++	if (rabo == null)
++	    return null;
++	return rabo;
+         // Aquí va su código.
+     }
+ }
+diff --git a/src/mx/unam/ciencias/icc/Practica4.java b/src/mx/unam/ciencias/icc/Practica4.java
+index 80ca9d0..8fc7d18 100644
+--- a/src/mx/unam/ciencias/icc/Practica4.java
++++ b/src/mx/unam/ciencias/icc/Practica4.java
+@@ -3,7 +3,7 @@ package mx.unam.ciencias.icc;
+ import java.util.Random;
+ 
+ /**
+- * Práctica 4: Herencia.
++ * Práctica 4: Herencia.práctica 2 
+  */
+ public class Practica4 {
+ 

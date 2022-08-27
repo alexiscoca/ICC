@@ -1,0 +1,96 @@
+diff --git a/src/mx/unam/ciencias/icc/Estudiante.java b/src/mx/unam/ciencias/icc/Estudiante.java
+index eaf9a7e..893bd1c 100644
+--- a/src/mx/unam/ciencias/icc/Estudiante.java
++++ b/src/mx/unam/ciencias/icc/Estudiante.java
+@@ -27,6 +27,9 @@ public class Estudiante {
+                       double promedio,
+                       int    edad) {
+         this.nombre    = nombre;
++	this.cuenta    = cuenta;
++	this.promedio  = promedio;
++	this.edad      = edad; 
+         // Aquí va su código.
+     }
+ 
+@@ -51,6 +54,7 @@ public class Estudiante {
+      * @return el número de cuenta del estudiante.
+      */
+     public int getCuenta() {
++	return cuenta;
+         // Aquí va su código.
+     }
+ 
+@@ -59,6 +63,7 @@ public class Estudiante {
+      * @param cuenta el nuevo número de cuenta del estudiante.
+      */
+     public void setCuenta(int cuenta) {
++	this.cuenta = cuenta;
+         // Aquí va su código.
+     }
+ 
+@@ -67,6 +72,7 @@ public class Estudiante {
+      * @return el promedio del estudiante.
+      */
+     public double getPromedio() {
++	return promedio;
+         // Aquí va su código.
+     }
+ 
+@@ -75,6 +81,7 @@ public class Estudiante {
+      * @param promedio el nuevo promedio del estudiante.
+      */
+     public void setPromedio(double promedio) {
++	this.promedio = promedio;
+         // Aquí va su código.
+     }
+ 
+@@ -83,6 +90,7 @@ public class Estudiante {
+      * @return la edad del estudiante.
+      */
+     public int getEdad() {
++	return edad;
+         // Aquí va su código.
+     }
+ 
+@@ -91,6 +99,7 @@ public class Estudiante {
+      * @param edad la nueva edad del estudiante.
+      */
+     public void setEdad(int edad) {
++	this.edad = edad;
+         // Aquí va su código.
+     }
+ 
+@@ -99,6 +108,12 @@ public class Estudiante {
+      * @return una representación en cadena del estudiante.
+      */
+     public String toString() {
++	return
++	    String.format("Nombre   : %s\n" +
++			  "Cuenta   : %09d\n" +
++			  "Promedio : %2.2f\n" +
++			  "Edad     : %d",
++			  nombre,cuenta,promedio,edad);
+         // Aquí va su código.
+     }
+ 
+@@ -111,8 +126,17 @@ public class Estudiante {
+      *         <tt>false</tt> en otro caso.
+      */
+     public boolean equals(Estudiante estudiante) {
+-        if (estudiante == null)
+-            return false;
++        if (estudiante == null){
++            return false;}
++	if (!this.nombre.equals (estudiante.nombre)){
++	    return false;}
++	if (this.cuenta != estudiante.cuenta){
++	    return false;}
++	if (this.promedio != estudiante.promedio){
++	    return false;}
++	if (this.edad != estudiante.edad){
++	    return false;}
++	return true;
++    }
+         // Aquí va su código.
+     }
+-}
